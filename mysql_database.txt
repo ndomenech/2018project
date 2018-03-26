@@ -3,3 +3,6 @@ username:  p_f17_3
 password:  45trzb
 
 database name:  p_f17_3_db
+
+
+note: seating main floor - 299 , concourse - 200, ground - 180 
