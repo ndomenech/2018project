@@ -10,6 +10,11 @@ $username = "p_f17_3";
 $password = "45trzb";
 $dbname = "test";
 
+//seat capacity of the floors
+$mainSeat = 299;
+$concourseSeat = 200;
+$groundSeat = 180;
+
 
 
 // Create connection
@@ -32,15 +37,14 @@ echo 'Overall data input  <br>';
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
         $overall[] = $row["average"];
     }
 } else {
     echo "0 results";
 }
 
-foreach($overall as $value)
-echo $value . '<br>' ; 
+
 
 
 $sql = "SELECT id, time, average  FROM `concourse_average`";
@@ -53,7 +57,7 @@ echo 'concourse data input  <br>';
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
         $concourse[] = $row["average"];
     }
 } else {
@@ -71,7 +75,7 @@ echo 'Ground data input  <br>';
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
         $ground[] = $row["average"];
     }
 } else {
@@ -88,7 +92,7 @@ echo 'Main data input  <br>';
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
         $main[] = $row["average"];
     }
 } else {
@@ -96,7 +100,25 @@ if ($result->num_rows > 0) {
 }
 
 
+if($main[0] < ($mainSeat /4)  ){
+    echo 'main is avalible <br>' ;
+}elseif ($main[0] < ($mainSeat /2) ) {
+    echo 'main is busy <br>';
+}else{
+    echo 'main is very busy <br>';
+}
 
+for ($i = 0; $i < 16; $i++) {
+        echo 'Time ' . ($i + 8) . '<br>' ;
+    if($main[$i] < ($mainSeat /4)  ){
+        echo 'main is avalible <br>' ;
+    }elseif ($main[$i] < ($mainSeat /2) ) {
+        echo 'main is busy <br>';
+    }else{
+        echo 'main is very busy <br>';
+    }
+
+}
 
 
 $conn->close();

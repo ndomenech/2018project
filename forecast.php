@@ -1,3 +1,7 @@
+<?php
+require 'config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,9 +21,155 @@
 
  	<link rel="shortcut icon" href="assets/ico/favicon.png">
 
+        <!-- load Google AJAX API -->
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script type="text/javascript">
+                    //load the Google Visualization API and the chart
+                    google.load('visualization', '1', {'packages':['columnchart','piechart']});
+        
+                    //set callback
+                    google.setOnLoadCallback (createChart);
+        
+                    //callback function
+                    function createChart() {
+        
+                        //create data table object
+                        var dataTable = new google.visualization.DataTable();
+        
+                        //define columns
+                        dataTable.addColumn('string','Area');
+                        dataTable.addColumn('number', 'Totals');
+        
+                        <?php 
+                            $sql = "SELECT SUM(Area_1), SUM(Area_2), SUM(Area_3) FROM Visit";
+                            $result = $conn->query($sql);
+                            $row = $result->fetch_array();
+                        ?>
+
+                        var totals = <?php echo json_encode($row) ?>;
+                
+                        //define rows of data
+                        dataTable.addRows([['Main Floor',parseInt(totals[0])], ['Concourse',parseInt(totals[1])],['Ground Floor',parseInt(totals[2])]]);
+        
+                        //instantiate our chart object
+                        var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+                        var secondChart = new google.visualization.PieChart (document.getElementById('chart2')); 		
+
+                        //define options for visualization
+                        var options = {width: 400, height: 240, is3D: true};
+        
+                        //draw our chart
+                        chart.draw(dataTable, options);
+                        secondChart.draw(dataTable, options);
+        
+                    }
+        </script>
+ 
+    </head>
+
     </head>
 
     <body>
+
+        <?php
+            $servername = "localhost";
+            $username = "p_f17_3";
+            $password = "45trzb";
+            $dbname = "test";
+
+            //seat capacity of the floors
+            $overallSeat = 679;
+            $mainSeat = 299;
+            $concourseSeat = 200;
+            $groundSeat = 180;
+
+
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+                echo'failer';
+            } 
+
+
+
+            $sql = "SELECT id, time, average  FROM `overall_average`";
+            $result = $conn->query($sql);
+
+            $overall = array();
+
+            //echo 'Overall data input  <br>';
+
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+                    $overall[] = $row["average"];
+                }
+            } else {
+                echo "0 results";
+            }
+
+
+
+
+            $sql = "SELECT id, time, average  FROM `concourse_average`";
+            $result = $conn->query($sql);
+
+            $concourse = array();
+
+            //echo 'concourse data input  <br>';
+
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+                    $concourse[] = $row["average"];
+                }
+            } else {
+                echo "0 results";
+            }
+
+
+            $sql = "SELECT id, time, average  FROM `ground_floor_average`";
+            $result = $conn->query($sql);
+
+            $ground = array();
+
+            //echo 'Ground data input  <br>';
+
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+                    $ground[] = $row["average"];
+                }
+            } else {
+                echo "0 results";
+            }
+
+            $sql = "SELECT id, time, average  FROM `main_average`";
+            $result = $conn->query($sql);
+
+            $main = array();
+
+            //echo 'Main data input  <br>';
+
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
+                    $main[] = $row["average"];
+                }
+            } else {
+                echo "0 results";
+            }
+
+
+
+        ?>
 
         
 
@@ -37,11 +187,11 @@
 
                     <div class="hidden-xs justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
                             <div class="row justify-content-center">
-                                <div class="alert-success text-white">Avalible</div>
-                                <div class="alert-warning text-dark">Busy</div>
-                                <div class="alert-danger text-white">Very Busy</div>
+                                <div class="alert-success text-white" style="background-color:#00C851;" >Avalible ( <25% )</div>
+                                <div class="alert-warning text-white" style="background-color:#ffbb33;">Busy ( <50% ) </div>
+                                <div class="alert-danger text-white" style="background-color:#ff4444">Very Busy ( >50% )</div>
                                 
-                                <div class="alert-dark text-white">Past</div>                 
+                                <div class="alert-dark text-white" style="background-color:#4B515D" >Past</div>                 
                              
                                 
                             </div>
@@ -98,51 +248,20 @@
                             <td class="resourcename">
                                     <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Overall</a>
                                                                                 </td>
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot " draggable="" resid="" data-resourceid="1"></td>
+                                    <?php          
+                                     for ($i = 0; $i < 16; $i++) {
+                                            
+                                        if($overall[$i] < ($overallSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($overall[$i] < ($overallSeat /2) ) {
+                                            echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
+                                        }else{
+                                            echo '<td colspan="1" class="alert-danger text-white" style="background-color:#ff4444" ></td>';
+                                        }
 
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121030003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
+                                    }
+                                    ?>
+                                  
 
 
                                     </tr>
@@ -156,52 +275,19 @@
                         <td class="resourcename">
                                      <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Main: Top Floor</a>
                                                                                 </td>
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
+                                                                                <?php          
+                                     for ($i = 0; $i < 16; $i++) {
+                                            
+                                        if($main[$i] < ($mainSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($main[$i] < ($mainSeat /2) ) {
+                                            echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
+                                        }else{
+                                            echo '<td colspan="1" class="alert-danger text-white" style="background-color:#ff4444" ></td>';
+                                        }
 
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121030003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                    <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="1"></td>
-
-
-                                    <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="1"></td>
-
+                                    }
+                                    ?>
 
                                     </tr>
                         
@@ -210,53 +296,19 @@
                         <td class="resourcename">
                                 <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Concourse: Mid Floor</a>
                         </td>
-                                <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
+                        <?php          
+                                     for ($i = 0; $i < 16; $i++) {
+                                            
+                                        if($concourse[$i] < ($concourseSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($concourse[$i] < ($concourseSeat /2) ) {
+                                            echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
+                                        }else{
+                                            echo '<td colspan="1" class="alert-danger text-white" style="background-color:#ff4444" ></td>';
+                                        }
 
-
-                                <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803121030003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-                                <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
-                                <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-
-
+                                    }
+                                    ?>
                                 </tr>
                     
                                                                                             </tr>
@@ -268,52 +320,19 @@
                                             <td class="resourcename">
                                                     <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Ground: Bottom Floor</a>
                                                                                                </td>
-                                                   <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803121030003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-                                                   <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120800003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120830003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120900003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803120930003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
-               
-                                                   <td colspan="1" ref="201803121000003" class="pasttime slot" draggable="" resid="" data-resourceid="3"></td>
-               
+                                                                                               <?php          
+                                     for ($i = 0; $i < 16; $i++) {
+                                            
+                                        if($ground[$i] < ($groundSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($ground[$i] < ($groundSeat /2) ) {
+                                            echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
+                                        }else{
+                                            echo '<td colspan="1" class="alert-danger text-white"  ></td>';
+                                        }
+
+                                    }
+                                    ?>          
                
                                                    </tr>
                                        
@@ -324,13 +343,27 @@
                                 </tbody>
                             </table>
                         </div>
+
+
                         </div>
+
+                        <h2 style="color:white;">Cumulative Visit Stats for Today</h2>
+                                <!--Div for charts -->
+                                <div >
+                                    <a id="chart"></a>
+                                    <div class="col-sm-2 col-sm-offset-2">
+                                    <a id="chart2"></a>
+                                </div>
                     </div>
                     
                 </div>
             </div>
             
         </div>
+
+        
+        
+	    
 
 
         <!-- Javascript -->
