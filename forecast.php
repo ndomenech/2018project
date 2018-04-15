@@ -16,10 +16,18 @@ require 'config.php';
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/css/form-elements.css">
+	    <link rel="stylesheet" href="assets/css/form-elements.css">
         <link rel="stylesheet" href="assets/css/style.css">
 
- 	<link rel="shortcut icon" href="assets/ico/favicon.png">
+ 	    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+         <style>
+            body {
+                background-color: #090809;
+            }
+
+
+         </style>
 
         <!-- load Google AJAX API -->
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -70,7 +78,7 @@ require 'config.php';
     </head>
 
     <body>
-
+            
         <?php
             $servername = "localhost";
             $username = "p_f17_3";
@@ -177,6 +185,7 @@ require 'config.php';
         <div class="top-content">
         	
             <div class="inner-bg">
+            <a href="home.htm" class="btn btn-lg active" role="button" style="background-color:#FFFFFF;" >Return to previous page</a>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
@@ -187,11 +196,12 @@ require 'config.php';
 
                     <div class="hidden-xs justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
                             <div class="row justify-content-center">
-                                <div class="alert-success text-white" style="background-color:#00C851;" >Avalible ( <25% )</div>
-                                <div class="alert-warning text-white" style="background-color:#ffbb33;">Busy ( <50% ) </div>
-                                <div class="alert-danger text-white" style="background-color:#ff4444">Very Busy ( >50% )</div>
+                                <div class="text-white" style="background-color:#00C851;" >  ( Capacity <10% ) </div>
+                                <div class="alert-success text-black" style="background-color:#fbfb22;" > ( Capacity <25% )</div>
+                                <div class="alert-warning text-white" style="background-color:#ffbb33;"> ( Capacity <50% ) </div>
+                                <div class="alert-danger text-white" style="background-color:#ff4444">  ( Capacity >50% )</div>
                                 
-                                <div class="alert-dark text-white" style="background-color:#4B515D" >Past</div>                 
+                                <div class="alert-dark text-white"  ></div>                 
                              
                                 
                             </div>
@@ -201,7 +211,7 @@ require 'config.php';
                             <table class="reservations" border="1" cellpadding="0" width="100%">
                                 <thead>
                                     <tr class="today"> 
-                                            <td class="resdate"> Today's <?php echo "date: " . date(' d/m/Y'); ?> </td>
+                                            <td class="resdate"> Today's <?php echo "date: " . date(' m/d/Y'); ?> </td>
                                                 <td class="reslabel " colspan="1">8:00 AM</td>
 
                                                 <td class="reslabel" colspan="1">9:00 AM</td>
@@ -238,7 +248,7 @@ require 'config.php';
                                         </tr>
                                      </thead>
                             <tbody>
-                                                                                                                                                                <tr class="slots">
+                                    <tr class="slots">
                                         <td class="resourcename">
      
     
@@ -248,11 +258,13 @@ require 'config.php';
                             <td class="resourcename">
                                     <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Overall</a>
                                                                                 </td>
-                                    <?php          
+                                    <?php   //goes through the data compare for which level of business         
                                      for ($i = 0; $i < 16; $i++) {
                                             
-                                        if($overall[$i] < ($overallSeat /4)  ){
-                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        if($overall[$i] < ($overallSeat /10)  ){
+                                            echo '<td colspan="1" class="text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($overall[$i] < ($overallSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#fbfb22;" ></td>' ;
                                         }elseif ($overall[$i] < ($overallSeat /2) ) {
                                             echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
                                         }else{
@@ -271,15 +283,17 @@ require 'config.php';
     
                         
                     </tr>
-                                                                                                                                                <tr class="slots">
+                    <tr class="slots">
                         <td class="resourcename">
                                      <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Main: Top Floor</a>
-                                                                                </td>
-                                                                                <?php          
+                         </td>
+                                    <?php          
                                      for ($i = 0; $i < 16; $i++) {
                                             
-                                        if($main[$i] < ($mainSeat /4)  ){
-                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        if($main[$i] < ($mainSeat /10)  ){
+                                            echo '<td colspan="1" class="text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($main[$i] < ($mainSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#fbfb22;" ></td>' ;
                                         }elseif ($main[$i] < ($mainSeat /2) ) {
                                             echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
                                         }else{
@@ -292,15 +306,17 @@ require 'config.php';
                                     </tr>
                         
                     </tr>
-                                                                                                                                                <tr class="slots">
+                    <tr class="slots">
                         <td class="resourcename">
                                 <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Concourse: Mid Floor</a>
                         </td>
-                        <?php          
+                                    <?php          
                                      for ($i = 0; $i < 16; $i++) {
                                             
-                                        if($concourse[$i] < ($concourseSeat /4)  ){
-                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        if($concourse[$i] < ($concourseSeat /10)  ){
+                                            echo '<td colspan="1" class="text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($concourse[$i] < ($concourseSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#fbfb22;" ></td>' ;
                                         }elseif ($concourse[$i] < ($concourseSeat /2) ) {
                                             echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
                                         }else{
@@ -311,7 +327,7 @@ require 'config.php';
                                     ?>
                                 </tr>
                     
-                                                                                            </tr>
+                                 </tr>
                     
                         
                     
@@ -319,12 +335,14 @@ require 'config.php';
                                     <tr class="slots">
                                             <td class="resourcename">
                                                     <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Ground: Bottom Floor</a>
-                                                                                               </td>
-                                                                                               <?php          
+                                            </td>
+                                    <?php          
                                      for ($i = 0; $i < 16; $i++) {
                                             
-                                        if($ground[$i] < ($groundSeat /4)  ){
-                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#00C851;" ></td>' ;
+                                        if($ground[$i] < ($groundSeat /10)  ){
+                                            echo '<td colspan="1" class="text-white" style="background-color:#00C851;" ></td>' ;
+                                        }elseif ($ground[$i] < ($groundSeat /4)  ){
+                                            echo '<td colspan="1" class="alert-success text-white" style="background-color:#fbfb22;" ></td>' ;
                                         }elseif ($ground[$i] < ($groundSeat /2) ) {
                                             echo '<td colspan="1" class="alert-warning text-dark" style="background-color:#ffbb33;" ></td>';
                                         }else{
@@ -334,7 +352,7 @@ require 'config.php';
                                     }
                                     ?>          
                
-                                                   </tr>
+                                    </tr>
                                        
                                    </tr>
                                         
@@ -346,6 +364,8 @@ require 'config.php';
 
 
                         </div>
+
+                        <!-- desplay the charts -->
 
                         <h2 style="color:white;">Cumulative Visit Stats for Today</h2>
                                 <!--Div for charts -->
@@ -369,7 +389,7 @@ require 'config.php';
         <!-- Javascript -->
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/jquery.backstretch.min.js"></script>
+        
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/navagation.ts"></script>
 

@@ -15,6 +15,10 @@ $mainSeat = 299;
 $concourseSeat = 200;
 $groundSeat = 180;
 
+date_default_timezone_set("America/New_York");
+
+$date = date("Y-m-d H:i:s");
+echo "the time is " . $date . "<br>" ;
 
 
 // Create connection

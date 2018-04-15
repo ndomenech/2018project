@@ -32,7 +32,7 @@ th, td {
 <body>
 <div>
    <h2>Today's Visit Statistics</h2>
-   <p>Date/Time: <span id="datetime"></span></p>
+   <p>Date&Time: <span id="datetime"></span></p>
 </div>
 
 <a href="home.htm" class="btn btn-lg active" role="button" >Return to previous page</a>
@@ -40,25 +40,95 @@ th, td {
 <?php
   require 'config.php';
 
-  $sql = "SELECT * FROM Visit";
-  $result = $conn->query($sql);
+    //Nick added code
+    $servername = "localhost";
+    $username = "p_f17_3";
+    $password = "45trzb";
+    $dbname = "test";
 
-  if ($result->num_rows > 0) {
+
+
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        echo'failer';
+    } 
+
+
+    date_default_timezone_set('UTC');
+    $date = date('Y-m-d');
+
+    $time = array();
+
+
+    $sql = "SELECT * FROM main_floor where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
+    $main_floor_result = $conn->query($sql);
+
+    $main = array();
+
+    
+
+    if ($main_floor_result->num_rows > 0) {
+        // output data of each row
+        while($row = $main_floor_result->fetch_assoc()) {
+            $main[] = $row["count"];
+            $time[] = $row["dateTime"];
+        }
+    } else {
+        echo " error in Main input ";
+    }
+
+    $sql = "SELECT * FROM concourse where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
+    $concourse_result = $conn->query($sql);
+
+    $concourse = array();
+
+
+    if ($concourse_result->num_rows > 0) {
+        // output data of each row
+        while($row = $concourse_result->fetch_assoc()) {
+            $concourse[] = $row["count"];
+        }
+    } else {
+        echo " error in Concourse input ";
+    }
+
+    $sql = "SELECT * FROM ground_floor where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
+    $ground_floor_result = $conn->query($sql);
+
+    $ground = array();
+
+    if ($ground_floor_result->num_rows > 0) {
+        // output data of each row
+        while($row = $ground_floor_result->fetch_assoc()) {
+            $ground[] = $row["count"];
+        }
+    } else {
+        echo " error in Ground input ";
+    }
+
+    $num_rows = mysqli_num_rows($main_floor_result);
+    //echo $num_rows . '<br>';
+
+  if ($main_floor_result->num_rows > 0) {
     echo "<table><tr>
 	<th>Time</th>
 	<th>Main Floor</th>
 	<th>Concourse</th>
 	<th>Ground Floor</th>
-	</tr>";
+    </tr>";
+    
+    //output data of each row
+    for($x  = 0; $x < $num_rows; $x++) {
+        echo "<tr><td>" . $time[$x] . "</td><td>" . $main[$x] . "</td><td>".$concourse[$x] .
+        "</td><td>".$ground[$x].
+        "</td></tr>";
+    } 
 
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>".$row["Time"].
-	     "</td><td>".$row["Area_1"].
-	     "</td><td>".$row["Area_2"].
-	     "</td><td>".$row["Area_3"].
-	     "</td></tr>";
-    }
+
     echo "</table>";
 } else {
     echo "0 results";
