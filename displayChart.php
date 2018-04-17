@@ -48,10 +48,11 @@ require 'config.php';
                 $password = "45trzb";
                 $dbname = "test";
 
-                date_default_timezone_set('UTC');
+                date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
 
 
+                echo $date;
 
 
                 // Create connection
@@ -118,6 +119,11 @@ require 'config.php';
 	<div>
    	  <a href="home.htm" class="btn btn-lg active" role="button" >Return to previous page</a>
 	</div>
+    <?php date_default_timezone_set('America/New_York');
+                $date = date('Y-m-d');
 
+
+                echo $date;
+                ?>
     </body>
 </html>

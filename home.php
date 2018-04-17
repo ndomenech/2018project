@@ -1,3 +1,6 @@
+<?php
+require 'session.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +26,10 @@
 
         <!-- Top content -->
         <div class="top-content">
-        	
+            <div id="profile" align="right">
+                <b id="welcome">Status Logged in || <i><?php echo $login_session; ?></i></b>
+                <b id="logout"><a href="logout.php">Log Out</a></b>
+            </div>
             <div class="inner-bg">
                 <div class="container">
                     <div class="row">
@@ -40,7 +46,7 @@
 				role="button" style="background-color: white; color: black;">Display Charts</a>
 			    <a href="displaySqlTable.php" class="btn btn-primary btn-block btn-lg active"
                 role="button" style="background-color: white; color: black;">Display data table</a>
-                <a href="forecast.php" class="btn btn-primary btn-block btn-lg active"
+                <a href="forecast1.php" class="btn btn-primary btn-block btn-lg active"
 				role="button" style="background-color: white; color: black;">Display Forecast</a>
 		                    
                         </div>
