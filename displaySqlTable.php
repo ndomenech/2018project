@@ -35,7 +35,7 @@ th, td {
    <p>Date&Time: <span id="datetime"></span></p>
 </div>
 
-<a href="home.htm" class="btn btn-lg active" role="button" >Return to previous page</a>
+<a href="home.php" class="btn btn-lg active" role="button" >Return to previous page</a>
 
 <?php
   require 'config.php';
@@ -74,13 +74,14 @@ th, td {
     if ($main_floor_result->num_rows > 0) {
         // output data of each row
         while($row = $main_floor_result->fetch_assoc()) {
-            $main[] = $row["count"];
-            $time[] = $row["dateTime"];
+            $main[] = $row["count"];  //get the head count store iin array 
+            $time[] = $row["dateTime"];  //get date and time store in array
         }
     } else {
         echo " error in Main input ";
     }
 
+    //request only current date information
     $sql = "SELECT * FROM concourse where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
     $concourse_result = $conn->query($sql);
 
@@ -113,6 +114,8 @@ th, td {
     $num_rows = mysqli_num_rows($main_floor_result);
     //echo $num_rows . '<br>';
 
+   
+
   if ($main_floor_result->num_rows > 0) {
     echo "<table><tr>
 	<th>Time</th>
@@ -123,7 +126,9 @@ th, td {
     
     //output data of each row
     for($x  = 0; $x < $num_rows; $x++) {
-        echo "<tr><td>" . $time[$x] . "</td><td>" . $main[$x] . "</td><td>".$concourse[$x] .
+        echo "<tr><td>" . $time[$x] . 
+        "</td><td>" . $main[$x] . 
+        "</td><td>".$concourse[$x] .
         "</td><td>".$ground[$x].
         "</td></tr>";
     } 
@@ -133,6 +138,9 @@ th, td {
 } else {
     echo "0 results";
 }
+
+
+
 $conn->close();
 ?>
 

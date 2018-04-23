@@ -1,3 +1,6 @@
+<?php
+require 'session.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +9,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Start Page</title>
+        <title>Home Page</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -15,7 +18,7 @@
 	<link rel="stylesheet" href="assets/css/form-elements.css">
         <link rel="stylesheet" href="assets/css/style.css">
 
- 	<link rel="shortcut icon" href="assets/ico/favicon.png">
+	 <link rel="shortcut icon" href="assets/ico/favicon.png">
 
     </head>
 
@@ -23,26 +26,33 @@
 
         <!-- Top content -->
         <div class="top-content">
-        	
+            <div id="profile" align="right">
+                <b id="welcome">Status Logged in || <i><?php echo $login_session; ?></i></b>
+                <b id="logout"><a href="logout.php">Log Out</a></b>
+            </div>
             <div class="inner-bg">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1>Visitor Application</h1>
-			    <h3>Sojourner Truth Library - SUNY New Paltz</h3>
+                            <h1>Choices...</h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
-                        	
-			    <a href="staffReg.htm" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Register a Member</a>
-    			    <a href="login.htm" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Login</a>
-
-                <a href="forecast.htm" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">forecast</a>
-
+                        
+                        
+                
+			    <a href="entry.htm" class="btn btn-primary btn-block btn-lg active"
+				role="button" style="background-color: white; color: black;">Add a data entry</a>
+                
+                <a href="displayChart.php" class="btn btn-primary btn-block btn-lg active"
+				role="button" style="background-color: white; color: black;">Display Charts</a>
+                
+                <a href="displaySqlTable.php" class="btn btn-primary btn-block btn-lg active"
+                role="button" style="background-color: white; color: black;">Display data table</a>
+                
+                <a href="forecast1.php" class="btn btn-primary btn-block btn-lg active"
+				role="button" style="background-color: white; color: black;">Display Forecast</a>
 		                    
                         </div>
                     </div>

@@ -48,10 +48,18 @@
 			          <label class="sr-only" for="password">Password</label>
 			          <input type="password" name="password" placeholder="Enter a password" class="form-control" id="form-password" required>
 			      </div>
-	                 	      <div class="form-group">
+	                 <div class="form-group">
            			<label class="sr-only" for="email">Email</label>
            			<input type="email" class="form-control form-email" name="email" placeholder="Enter an email address" required>
-         			      </div>
+                     </div>
+                     <div class="form-group">
+                            <label class="sr-only" for="access">Admin 0, or staff 1 </label>
+                            <input type="number" name="access"  min="0" max="1" placeholder="Admin 0, or staff 1" class="form-control" id="form-access" required>
+                        </div>
+
+
+
+                           
 			      <button name="register" type="submit" class="btn" style="background-color:black;">Register</button>
 			  </form>
 		          </div>

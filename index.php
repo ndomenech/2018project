@@ -48,8 +48,8 @@ require 'config.php';
 	            dataTable.addColumn('string','Area');
                 dataTable.addColumn('number', 'Totals');
  
-          <?php 
-                            //Nick added code
+          <?php //php code to get data for the charts 
+                            
                 $servername = "localhost";
                 $username = "p_f17_3";
                 $password = "45trzb";
@@ -71,12 +71,11 @@ require 'config.php';
 
 
 
-
+                //request data from today, for the charts  
 				$sql = "SELECT SUM(count) FROM main_floor where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
                 $main_floor_result = $conn->query($sql);
                 $main_row = $main_floor_result->fetch_array();
 
-                
 
                 $sql = "SELECT SUM(count) FROM concourse where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
                 $concourse_result = $conn->query($sql);
@@ -154,7 +153,6 @@ require 'config.php';
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
                     $overall[] = $row["average"];
                 }
             } else {
@@ -174,7 +172,6 @@ require 'config.php';
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
                     $concourse[] = $row["average"];
                 }
             } else {
@@ -192,7 +189,6 @@ require 'config.php';
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
                     $ground[] = $row["average"];
                 }
             } else {
@@ -209,7 +205,6 @@ require 'config.php';
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
-                    //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
                     $main[] = $row["average"];
                 }
             } else {
@@ -224,6 +219,11 @@ require 'config.php';
 
         <!-- Top content -->
         <div class="top-content">
+            <!-- Login for staff or admin -->
+            <div align="right">
+            <a href="signin.html" class="btn btn-primary btn-lg active"
+				role="button" style="background-color: white; color: black;">Login</a>
+            </div>
         	
             <div class="inner-bg">
             
@@ -234,8 +234,8 @@ require 'config.php';
 			    <h3>Sojourner Truth Library - SUNY New Paltz</h3>
                         </div>
                     </div>
-
-                    <div class="hidden-xs justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
+                        <!-- legend -->
+                    <div class="justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
                             <div class="row justify-content-center">
                                 <div class="text-white" style="background-color:#00C851;" >  ( Capacity <10% ) </div>
                                 <div class="alert-success text-black" style="background-color:#fbfb22;" > ( Capacity <25% )</div>
@@ -251,7 +251,7 @@ require 'config.php';
                     <div style="position:relative;">
                             <table class="reservations" border="1" cellpadding="0" width="100%">
                                 <thead>
-                                    <tr class="today"> 
+                                    <tr class="today">   <!-- table construction & php to display the current date  -->
                                             <td class="resdate"> Today's <?php echo "date: " . date(' m/d/Y'); ?> </td>
                                                 <td class="reslabel " colspan="1">8:00 AM</td>
 
@@ -300,8 +300,8 @@ require 'config.php';
                                     <a href="" resourceid="3" class="resourceNameSelector" resource-details-bound="1">Overall</a>
                                                                                 </td>
                                     <?php   //goes through the data compare for which level of business         
-                                     for ($i = 0; $i < 16; $i++) {
-                                            
+                                     for ($i = 0; $i < 16; $i++) { 
+                                            //note the index + 8 is the hour in 24 hour clock
                                         if($overall[$i] < ($overallSeat /10)  ){
                                             echo '<td colspan="1" class="text-white" style="background-color:#00C851;" ></td>' ;
                                         }elseif ($overall[$i] < ($overallSeat /4)  ){
@@ -432,7 +432,6 @@ require 'config.php';
         <!-- Javascript -->
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/navagation.ts"></script>
 

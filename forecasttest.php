@@ -57,6 +57,7 @@ require 'config.php';
 
                 date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
+                $currtime = date('h:i:s');
 
                 
 
@@ -132,7 +133,7 @@ require 'config.php';
             $concourseSeat = 200;
             $groundSeat = 180;
 
-
+            
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -226,7 +227,7 @@ require 'config.php';
         <div class="top-content">
         	
             <div class="inner-bg">
-            <a href="home.php" class="btn btn-lg active" role="button" style="background-color:#FFFFFF;" >Return to previous page</a>
+            <a href="home.htm" class="btn btn-lg active" role="button" style="background-color:#FFFFFF;" >Return to previous page</a>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
@@ -235,7 +236,7 @@ require 'config.php';
                         </div>
                     </div>
 
-                    <div class="justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
+                    <div class="hidden-xs justify-content-cente col-sm-2 col-sm-offset-5 schedule-legend">
                             <div class="row justify-content-center">
                                 <div class="text-white" style="background-color:#00C851;" >  ( Capacity <10% ) </div>
                                 <div class="alert-success text-black" style="background-color:#fbfb22;" > ( Capacity <25% )</div>
@@ -412,7 +413,7 @@ require 'config.php';
                         <p> <span id="datetime"></span></p>
                         <h2 style="color:white;">Cumulative Visit Stats for Today</h2>
                                 <!--Div for charts -->
-                                <div align="center" >
+                                <div >
                                     <a id="chart"></a>
                                     <div class="col-sm-2 col-sm-offset-2">
                                     <a id="chart2"></a>

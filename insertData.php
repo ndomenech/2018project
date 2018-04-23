@@ -22,7 +22,7 @@ $a3 = $_POST['area3'];
 
 //the data base table has the issue that the date time has an am/pm as the otheres do not.
 $sql = "INSERT INTO main_floor(dateTime, count)
-    VALUES('$date', '$a2')";
+    VALUES('$date', '$a1')";
 
 if (mysqli_query($conn, $sql)) {
     echo "";} else {

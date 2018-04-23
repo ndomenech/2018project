@@ -117,7 +117,7 @@ require 'config.php';
         <div id="chart"></div>
 	<div id="chart2"></div>
 	<div>
-   	  <a href="home.htm" class="btn btn-lg active" role="button" >Return to previous page</a>
+   	  <a href="home.php" class="btn btn-lg active" role="button" >Return to previous page</a>
 	</div>
     <?php date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');

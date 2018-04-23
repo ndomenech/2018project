@@ -39,13 +39,22 @@ require 'session.php';
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
-                        	
+
+                        
+
+                 <!–- Admin can only create a new user -–>        	
+			    <a href="staffReg.htm" class="btn btn-primary btn-block btn-lg active"
+                role="button" style="background-color: white; color: black;">Register a Member</a>
+                <!–- To enter the data -–> 
 			    <a href="entry.htm" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Add a data entry</a>
-    			    <a href="displayChart.php" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Display Charts</a>
+                role="button" style="background-color: white; color: black;">Add a data entry</a>
+                <!–-  -–>
+    			<a href="displayChart.php" class="btn btn-primary btn-block btn-lg active"
+                role="button" style="background-color: white; color: black;">Display Charts</a>
+                <!–-  -–>
 			    <a href="displaySqlTable.php" class="btn btn-primary btn-block btn-lg active"
                 role="button" style="background-color: white; color: black;">Display data table</a>
+                <!–-  -–>
                 <a href="forecast1.php" class="btn btn-primary btn-block btn-lg active"
 				role="button" style="background-color: white; color: black;">Display Forecast</a>
 		                    
