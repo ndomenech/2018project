@@ -5,131 +5,75 @@
 <p>HTML Hello</p>
 
 
-
-
 <?php
+		require 'config.php';
+        
+        
+        
+        //get records from database
+	    $results_per_page = 25;
+		$datatable = "main_floor";
+		if (isset($_GET["page"])) { 
+			$page  = $_GET["page"]; 
+			} else { 
+				$page=1; 
+			}; 
+         $start_from = ($page-1) * $results_per_page;
+            //import code form displaysqlTable 
 
-$servername = "localhost";
-$username = "p_f17_3";
-$password = "45trzb";
-$dbname = "test";
-
-//seat capacity of the floors
-$mainSeat = 299;
-$concourseSeat = 200;
-$groundSeat = 180;
-
-date_default_timezone_set("America/New_York");
-
-$date = date("Y-m-d H:i:s");
-echo "the time is " . $date . "<br>" ;
-
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-    echo'failer';
-} 
+            
 
 
+            $sqlConcourse = "SELECT * FROM concourse ORDER BY id LIMIT $start_from, " .$results_per_page;
+            $concourse_floor_result = $conn->query($sqlConcourse);
+    
+    
+            $num_rows = mysqli_num_rows($concourse_floor_result);
+            echo $num_rows . '<br>';
+    
+            
+                
+            if ($dataConcourse = $conn->query($sqlConcourse))
+            {
+                //create and display table of records if there are entries
+                if ($dataConcourse->num_rows > 0)
+                {
+                    echo "concourse table data <br>";
+                    echo "<table><tr><th>Date Time</th><th>Count</th><th></th><th></th>";
+                    while ($row = $dataConcourse->fetch_object())
+                    {
+                        echo "<tr><td>" . $row->dateTime . "</td>";
+                        echo "<td>" . $row->count . "</td>";
+                        echo "<td><a href = 'javascript:edit(". $row->dateTime .")'>Edit<a/></td>";
+                        echo "<td><a href = 'javascript:confirmDelete(". $row->dateTime .")'>Delete</a></td></tr>";
+                    }
+                }
+                else
+                {
+                    echo "The database is curently empty!";
+                }
+                echo "</table>";
+            }
+        
+        $sql2 = "SELECT COUNT(id) AS total FROM ".$datatable;
+		$result = mysqli_query($conn,$sql2);
+		$row = mysqli_fetch_assoc($result);
+		$total_pages = ceil($row["total"] / $results_per_page); // calculate total pages with results
+		
+		for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages 
+					$href = '"test.php?page='.$i.'"';
+					echo "<button type='button' style='display:inline;' onclick='window.location.href=".$href."'";
+					if ($i==$page) echo " class='curPage' ";
+		
+					 
+					echo ">".$i."</button> ";
+		}; 
 
-$sql = "SELECT id, time, average  FROM `overall_average`";
-$result = $conn->query($sql);
+        
 
-$overall = array();
+		
 
-echo 'Overall data input  <br>';
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
-        $overall[] = $row["average"];
-    }
-} else {
-    echo "0 results";
-}
-
-
-
-
-$sql = "SELECT id, time, average  FROM `concourse_average`";
-$result = $conn->query($sql);
-
-$concourse = array();
-
-echo 'concourse data input  <br>';
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
-        $concourse[] = $row["average"];
-    }
-} else {
-    echo "0 results";
-}
-
-
-$sql = "SELECT id, time, average  FROM `ground_floor_average`";
-$result = $conn->query($sql);
-
-$ground = array();
-
-echo 'Ground data input  <br>';
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
-        $ground[] = $row["average"];
-    }
-} else {
-    echo "0 results";
-}
-
-$sql = "SELECT id, time, average  FROM `main_average`";
-$result = $conn->query($sql);
-
-$main = array();
-
-echo 'Main data input  <br>';
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        //echo "id: " . $row["id"] . " time: " . $row["time"] . " Average: " . $row["average"].  "<br>";
-        $main[] = $row["average"];
-    }
-} else {
-    echo "0 results";
-}
-
-
-if($main[0] < ($mainSeat /4)  ){
-    echo 'main is avalible <br>' ;
-}elseif ($main[0] < ($mainSeat /2) ) {
-    echo 'main is busy <br>';
-}else{
-    echo 'main is very busy <br>';
-}
-
-for ($i = 0; $i < 16; $i++) {
-        echo 'Time ' . ($i + 8) . '<br>' ;
-    if($main[$i] < ($mainSeat /4)  ){
-        echo 'main is avalible <br>' ;
-    }elseif ($main[$i] < ($mainSeat /2) ) {
-        echo 'main is busy <br>';
-    }else{
-        echo 'main is very busy <br>';
-    }
-
-}
-
-
-$conn->close();
+		$conn->close();
 
 ?>
 

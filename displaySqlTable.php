@@ -32,33 +32,17 @@ th, td {
 <body>
 <div>
    <h2>Today's Visit Statistics</h2>
-   <p>Date&Time: <span id="datetime"></span></p>
+   <p>Date & Time: <span id="datetime"></span></p>
 </div>
 
-<a href="home.php" class="btn btn-lg active" role="button" >Return to previous page</a>
+<a href="staff.php" class="btn btn-lg active" role="button" >Return to previous page</a>
 
 <?php
   require 'config.php';
 
-    //Nick added code
-    $servername = "localhost";
-    $username = "p_f17_3";
-    $password = "45trzb";
-    $dbname = "test";
+    
 
-
-
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-        echo'failer';
-    } 
-
-
-    date_default_timezone_set('UTC');
+    date_default_timezone_set('America/New_York');
     $date = date('Y-m-d');
 
     $time = array();
@@ -78,7 +62,7 @@ th, td {
             $time[] = $row["dateTime"];  //get date and time store in array
         }
     } else {
-        echo " error in Main input ";
+        echo "  ";
     }
 
     //request only current date information
@@ -94,7 +78,7 @@ th, td {
             $concourse[] = $row["count"];
         }
     } else {
-        echo " error in Concourse input ";
+        echo " ";
     }
 
     $sql = "SELECT * FROM ground_floor where dateTime between '$date 00:00:00' and '$date 23:59:00' ";
@@ -108,7 +92,7 @@ th, td {
             $ground[] = $row["count"];
         }
     } else {
-        echo " error in Ground input ";
+        echo " ";
     }
 
     $num_rows = mysqli_num_rows($main_floor_result);
@@ -136,7 +120,7 @@ th, td {
 
     echo "</table>";
 } else {
-    echo "0 results";
+    echo "No data enter today";
 }
 
 

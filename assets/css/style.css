@@ -31,6 +31,21 @@ h3 {
     line-height: 30px;
 }
 
+.imgcontainer 
+{
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+.modal-content 
+{
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 500px; /* Could be more or less, depending on screen size */
+}
+
 img { max-width: 100%; }
 
 ::-moz-selection { background: #4aaf51; color: #fff; text-shadow: none; }
@@ -162,6 +177,20 @@ img { max-width: 100%; }
 
 .social-login-buttons {
 	margin-top: 25px;
+}
+* The following styles are for the add and edit modals */
+.modalh1
+{
+    text-align: center;
+}
+input[type=text]
+{
+    width: 100%;
+    padding: 1.5%;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 

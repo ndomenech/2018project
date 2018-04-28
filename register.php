@@ -11,11 +11,9 @@ $sql = "INSERT INTO staffTest(npid, username, password, email, access)
 	VALUES('$NPid', '$user', '$pass', '$email','$access')";
 
 if (mysqli_query($conn, $sql)) {
-    if($access == 0){
+    
         header("Location: admin.php");
-    }else{
-        header("Location: staff.php");
-    }
+    
 } else {
     echo "Error:  " . $sql . "<br>" . mysqli_error($conn);
 } 

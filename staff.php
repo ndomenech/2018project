@@ -27,7 +27,7 @@ require 'session.php';
         <!-- Top content -->
         <div class="top-content">
             <div id="profile" align="right">
-                <b id="welcome">Status Logged in || <i><?php echo $login_session; ?></i></b>
+                <b id="welcome"> <i><?php echo $login_session; ?></i></b>
                 <b id="logout"><a href="logout.php">Log Out</a></b>
             </div>
             <div class="inner-bg">
@@ -42,17 +42,19 @@ require 'session.php';
                         
                         
                 
+                 <!–- To enter the data -–> 
 			    <a href="entry.htm" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Add a data entry</a>
-                
-                <a href="displayChart.php" class="btn btn-primary btn-block btn-lg active"
-				role="button" style="background-color: white; color: black;">Display Charts</a>
-                
-                <a href="displaySqlTable.php" class="btn btn-primary btn-block btn-lg active"
-                role="button" style="background-color: white; color: black;">Display data table</a>
-                
+                role="button" style="background-color: white; color: black;">Head entry</a>
+                <!–-  -–>
+    			<a href="displayChart.php" class="btn btn-primary btn-block btn-lg active"
+                role="button" style="background-color: white; color: black;">Display Charts</a>
+                <!–-  -–>
+			    <a href="displaySqlTable.php" class="btn btn-primary btn-block btn-lg active"
+                role="button" style="background-color: white; color: black;">View Today Table</a>
+                <!–-  -–>
                 <a href="forecast1.php" class="btn btn-primary btn-block btn-lg active"
 				role="button" style="background-color: white; color: black;">Display Forecast</a>
+		                    
 		                    
                         </div>
                     </div>

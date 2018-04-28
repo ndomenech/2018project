@@ -39,7 +39,7 @@ require 'config.php';
     
 
    if(!mysqli_num_rows($query))
-    echo "Invalid user login. ";
+   header("Location: signin.html");
    else {
         if($access[0] == 0){
             $_SESSION['login_user']=$username; // Initializing Session

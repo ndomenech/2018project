@@ -50,25 +50,10 @@ require 'config.php';
  
           <?php //php code to get data for the charts 
                             
-                $servername = "localhost";
-                $username = "p_f17_3";
-                $password = "45trzb";
-                $dbname = "test";
+             require 'config.php';
 
                 date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
-
-                
-
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                    echo'failer';
-                } 
-
 
 
                 //request data from today, for the charts  
@@ -120,11 +105,7 @@ require 'config.php';
     <body>
             
         <?php
-            $servername = "localhost";
-            $username = "p_f17_3";
-            $password = "45trzb";
-            $dbname = "test";
-
+            require 'config.php';
             //seat capacity of the floors
             $overallSeat = 679;
             $mainSeat = 299;
@@ -133,14 +114,7 @@ require 'config.php';
 
 
 
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-                echo'failer';
-            } 
-
+            
 
 
             $sql = "SELECT id, time, average  FROM `overall_average`";

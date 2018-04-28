@@ -49,27 +49,14 @@ require 'config.php';
                 dataTable.addColumn('number', 'Totals');
  
           <?php 
-                            //Nick added code
-                $servername = "localhost";
-                $username = "p_f17_3";
-                $password = "45trzb";
-                $dbname = "test";
+              
 
                 date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
                 $currtime = date('h:i:s');
+                $curhour = date('H');
 
                 
-
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                    echo'failer';
-                } 
-
 
 
 
@@ -122,10 +109,7 @@ require 'config.php';
     <body>
             
         <?php
-            $servername = "localhost";
-            $username = "p_f17_3";
-            $password = "45trzb";
-            $dbname = "test";
+           
 
             //seat capacity of the floors
             $overallSeat = 679;
@@ -135,13 +119,7 @@ require 'config.php';
 
             
 
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-                echo'failer';
-            } 
+         
 
 
 
@@ -219,6 +197,38 @@ require 'config.php';
 
 
 
+
+            //dynamic Forecast prep area
+
+            $sql = "SELECT SUM(count) FROM main_floor where dateTime between '$date $curhour:00:00' and '$date $curhour:59:00' ";
+            $main_floor_curr_hour = $conn->query($sql);
+            $main_curr_hour = $main_floor_curr_hour->fetch_array();
+
+            $curmain = $main_curr_hour[0];
+
+            $limithour = $curhour - 8;
+
+            $PercentDiffTotal = 0.0;
+            (float)$PercentDiffMain = 0.0000;
+            $PercentDiffCon = 0.0;
+            $PercentDiffGrond = 0.0;
+
+            $sumOverall = 0;
+            $sumMain = 0;
+            $sumConcourse = 0;
+            $sumGround = 0;
+
+            //user curhour to get the %diff from average
+
+            //sum of average up till current hour
+            
+
+            if($curMain > 0){ // then get teh Percent diff
+                $PercentDiffMain = ( ($curMain -  $main[$limithour])/ $main[$limithour]);
+            }
+
+
+
         ?>
 
         
@@ -232,7 +242,7 @@ require 'config.php';
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
                             <h1>Forecaster</h1>
-			    <h3>Sojourner Truth Library - SUNY New Paltz</h3>
+			    <h3>Sojourner Truth Library - SUNY New Paltz </h3>
                         </div>
                     </div>
 

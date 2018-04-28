@@ -1,17 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "p_f17_3";
-$password = "45trzb";
-$dbname = "test";
+require 'config.php';
 
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
-echo'failer';
-} 
 
 date_default_timezone_set("America/New_York");
 $date = date("Y-m-d H:i:s");

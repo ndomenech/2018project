@@ -42,11 +42,7 @@ require 'config.php';
                 dataTable.addColumn('number', 'Totals');
  
           <?php 
-                            //Nick added code
-                $servername = "localhost";
-                $username = "p_f17_3";
-                $password = "45trzb";
-                $dbname = "test";
+                require 'config.php';
 
                 date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
@@ -54,14 +50,6 @@ require 'config.php';
 
                 echo $date;
 
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                    echo'failer';
-                } 
 
 
 
@@ -117,7 +105,7 @@ require 'config.php';
         <div id="chart"></div>
 	<div id="chart2"></div>
 	<div>
-   	  <a href="home.php" class="btn btn-lg active" role="button" >Return to previous page</a>
+   	  <a href="staff.php" class="btn btn-lg active" role="button" >Return to previous page</a>
 	</div>
     <?php date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');

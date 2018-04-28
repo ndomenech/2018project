@@ -50,17 +50,17 @@ require 'config.php';
  
           <?php 
                             //Nick added code
-                $servername = "localhost";
+               /* $servername = "localhost";
                 $username = "p_f17_3";
                 $password = "45trzb";
                 $dbname = "test";
-
+                */
                 date_default_timezone_set('America/New_York');
                 $date = date('Y-m-d');
 
                 
 
-
+                /*
                 // Create connection
                 $conn = new mysqli($servername, $username, $password, $dbname);
                 // Check connection
@@ -68,7 +68,7 @@ require 'config.php';
                     die("Connection failed: " . $conn->connect_error);
                     echo'failer';
                 } 
-
+                */
 
 
 
@@ -121,10 +121,13 @@ require 'config.php';
     <body>
             
         <?php
+
+            /*
             $servername = "localhost";
             $username = "p_f17_3";
             $password = "45trzb";
             $dbname = "test";
+            */
 
             //seat capacity of the floors
             $overallSeat = 679;
@@ -133,7 +136,7 @@ require 'config.php';
             $groundSeat = 180;
 
 
-
+            /*
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
             // Check connection
@@ -141,6 +144,7 @@ require 'config.php';
                 die("Connection failed: " . $conn->connect_error);
                 echo'failer';
             } 
+            */
 
 
 
@@ -226,7 +230,7 @@ require 'config.php';
         <div class="top-content">
         	
             <div class="inner-bg">
-            <a href="home.php" class="btn btn-lg active" role="button" style="background-color:#FFFFFF;" >Return to previous page</a>
+            <a href="staff.php" class="btn btn-lg active" role="button" style="background-color:#FFFFFF;" >Return to previous page</a>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
